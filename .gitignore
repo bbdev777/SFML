@@ -1,0 +1,7 @@
+*.pem
+*.p12
+*.pyc
+TestApp/build/*
+.build/*
+.builds/*
+.vs/*
