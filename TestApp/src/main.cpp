@@ -11,10 +11,11 @@ enum struct ResultCodes : int
 
 int SfmlWindow()
 {
-    sf::RenderWindow window(sf::VideoMode(400, 400), "SFML works!");
-    sf::CircleShape shape(200.f);
+    sf::RenderWindow window(sf::VideoMode(300, 300), "SFML works!");
+    sf::CircleShape shape(20.f);
     shape.setFillColor(sf::Color::Green);
 
+    
     while (window.isOpen())
     {
         sf::Event event;
@@ -24,6 +25,9 @@ int SfmlWindow()
                 window.close();
         }
 
+        shape.setPosition(window.getView().getSize().x / 2.0, window.getView().getSize().y / 2.0);
+        shape.setOrigin(0, 0);
+        
         window.clear();
         window.draw(shape);
         window.display();
@@ -35,8 +39,6 @@ int SfmlWindow()
 int main(int argc, char *argv[])
 {
     ResultCodes result = ResultCodes::Ok;
-
-    printf("Test\n");
 
     SfmlWindow();
     
