@@ -12,6 +12,7 @@ namespace Stars
         double x = 0.0;
         double y = 0.0;
         double z = 0.0;
+        int type = 0; // 0 - 2
     };
 
     class StarsModel
@@ -48,7 +49,7 @@ namespace Stars
 
         void GenerateStars()
         {
-            for (int i = 0; i < 250; i++)
+            for (int i = 0; i < 350; i++)
             {               
                 starList.push_back(Randomize(defaultZ));
             }
@@ -62,15 +63,14 @@ namespace Stars
 
         StarDescription Randomize(double defaultZ)
         {
-            std::uniform_int_distribution<int> distribution(7500, 75000);
-            int radiusX = distribution(generator);
+            int radiusX = std::uniform_int_distribution<int>(7500, 75000)(generator);
             int radiusY = radiusX;
             double  radians = DegToRad(double(rand() % 359));
             double  x = (double)(radiusX) * cos(radians);
             double  y = (double)(radiusY) * sin(radians);
             double  z = -(double)(rand() % (int)fabs(defaultZ));
 
-            StarDescription description {x, y, z};
+            StarDescription description {x, y, z, std::uniform_int_distribution<int>(0, 2)(generator)};
 
             return description;
         }
