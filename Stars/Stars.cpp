@@ -27,7 +27,7 @@ int	main()
 {
 	SfmlGraphics::SfmlApp	application(1280, 768, "Stars");
 	Stars::StarsModel 		starsModel;
-	double					baseStep = 1.0;
+	double					baseStep = 1.5;
 	std::vector<sf::Texture>	textures;
 
 	textures.emplace_back(LoadTexture("Images/StarWhite.png"));

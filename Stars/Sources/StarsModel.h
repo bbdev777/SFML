@@ -49,7 +49,7 @@ namespace Stars
 
         void GenerateStars()
         {
-            for (int i = 0; i < 350; i++)
+            for (int i = 0; i < 500; i++)
             {               
                 starList.push_back(Randomize(defaultZ));
             }
@@ -63,7 +63,7 @@ namespace Stars
 
         StarDescription Randomize(double defaultZ)
         {
-            int radiusX = std::uniform_int_distribution<int>(7500, 75000)(generator);
+            int radiusX = std::uniform_int_distribution<int>(8500, 95000)(generator);
             int radiusY = radiusX;
             double  radians = DegToRad(double(rand() % 359));
             double  x = (double)(radiusX) * cos(radians);
@@ -75,7 +75,7 @@ namespace Stars
             return description;
         }
 
-        double defaultZ = -120.0;
+        double defaultZ = -250.0;
 
         std::random_device generator;
         std::vector<StarDescription> starList;
