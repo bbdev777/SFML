@@ -63,8 +63,8 @@ void PutStarsToDisplay(sf::RenderWindow &window,
 		double curZ = std::abs(star.z);
 		double scale = 0.5 - (0.5 / maxZ) * curZ;
 
-		sprite.setPosition({curStar.x + halfWidth, curStar.y + halfHeight});
-		sprite.setScale({scale, scale});
+		sprite.setPosition(curStar.x + halfWidth, curStar.y + halfHeight);
+		sprite.setScale(scale, scale);
 		window.draw(sprite);
 	}
 }

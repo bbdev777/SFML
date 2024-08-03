@@ -5,7 +5,7 @@
 #include <functional>
 #include <chrono>
 #include <atomic>
-
+#include <unistd.h> 
 #include <SFML/Graphics.hpp>
 
 namespace SfmlGraphics
@@ -47,7 +47,7 @@ namespace SfmlGraphics
 
                 window.display();
 
-                usleep(delayMs * 1000);
+                ::usleep(delayMs * 1000);
                 std::chrono::time_point<std::chrono::system_clock> endTime = std::chrono::system_clock::now();
                 std::chrono::duration<double> delta = endTime - startTime;
 
