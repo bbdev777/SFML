@@ -15,13 +15,22 @@ int	main()
 
 	auto&	textures = view.GetTextures();
 
+	int	iter = 0;
 	return application.Run([&](double k, sf::RenderWindow &window)
 	{
 		auto modelSize = view.GetModelSize();
-		sf::Sprite sprite(textures[0], sf::IntRect(modelSize.x * 15, modelSize.y * 15, modelSize.x, modelSize.y));
+		int	offset = 0;
+		int	level = 7;
+			
+		if (iter % 2 == 0)
+			offset ++;
+
+		sf::Sprite sprite(textures[0], sf::IntRect(modelSize.x * offset, modelSize.y * level, modelSize.x - 1, modelSize.y - 1));
 		
 		window.clear();
 		window.draw(sprite);
+
+		iter++;
 	});
 }
 
