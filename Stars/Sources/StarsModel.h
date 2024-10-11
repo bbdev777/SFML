@@ -97,7 +97,7 @@ namespace Stars
             return description;
         }
 
-        double defaultZ = -250.0;
+        double defaultZ = -300.0;
 
         std::random_device generator;
         std::vector<ObjectDescription> starList;
