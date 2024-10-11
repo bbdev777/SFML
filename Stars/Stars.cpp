@@ -33,6 +33,9 @@ int	main()
 	textures.emplace_back(LoadTexture("Images/StarWhite.png"));
 	textures.emplace_back(LoadTexture("Images/StarRed.png"));
 	textures.emplace_back(LoadTexture("Images/StarBlue.png"));
+	textures.emplace_back(LoadTexture("Images/Clouds/Cloud1.png"));
+	textures.emplace_back(LoadTexture("Images/Clouds/Cloud2.png"));
+	textures.emplace_back(LoadTexture("Images/Clouds/Cloud3.png"));
 
 	return application.Run([&](double k, sf::RenderWindow &window)
 	{
@@ -42,9 +45,9 @@ int	main()
 	});
 }
 
-Stars::StarDescription SetPerspective(const Stars::StarDescription &star)
+Stars::ObjectDescription SetPerspective(const Stars::ObjectDescription &star)
 {
-	Stars::StarDescription perspectStar = star;
+	Stars::ObjectDescription perspectStar = star;
 	double z = perspectStar.z;
 
 	perspectStar.x = perspectStar.x / z;
@@ -58,6 +61,7 @@ void PutStarsToDisplay(sf::RenderWindow &window,
 		std::vector<sf::Texture>& texture)
 {
 	const auto &starList = starModel.GetStars();
+	const auto &cloudList = starModel.GetClouds();
 	auto size = window.getView().getSize();
 	double halfWidth = (double)size.x / 2.0;
 	double halfHeight = (double)size.y / 2.0;
@@ -67,9 +71,11 @@ void PutStarsToDisplay(sf::RenderWindow &window,
 
 	for (auto &star : starList)
 	{
-		Stars::StarDescription curStar = SetPerspective(star);
+		Stars::ObjectDescription curStar = SetPerspective(star);
 
 		sf::Sprite sprite;
+		int	textureOffsetX = texture[star.type].getSize().x / 2;
+		int	textureOffsetY = texture[star.type].getSize().y / 2;
 		sprite.setTexture(texture[star.type]);
 
 		double curZ = std::abs(star.z);
@@ -78,7 +84,37 @@ void PutStarsToDisplay(sf::RenderWindow &window,
 		if (scale < 0.13)
 			scale = 0.13;
 
-		sprite.setPosition(curStar.x + halfWidth, curStar.y + halfHeight);
+		double transparency = scale * 350.0;
+		if (transparency  > 255.0)
+			transparency = 255.0;
+
+		sprite.setColor(sf::Color(255, 255, 255, transparency));
+		sprite.setPosition(curStar.x + halfWidth - textureOffsetX * scale, curStar.y + halfHeight - textureOffsetY * scale);
+		sprite.setScale(scale, scale);
+		window.draw(sprite);
+	}
+
+	baseScale *= 0.25;
+	maxZ = std::abs(starModel.GetMaxZ());
+	for (auto &star : cloudList)
+	{
+		Stars::ObjectDescription curStar = SetPerspective(star);
+
+		sf::Sprite sprite;
+		int	textureOffsetX = texture[star.type].getSize().x / 2;
+		int	textureOffsetY = texture[star.type].getSize().y / 2;
+		sprite.setTexture(texture[star.type]);
+
+		double curZ = std::abs(star.z);
+		double scale = baseScale - (baseScale / maxZ) * curZ;
+
+
+		double transparency = scale * 1024.0;
+		if (transparency  > 255.0)
+			transparency = 255.0;
+
+		sprite.setColor(sf::Color(255, 255, 255, transparency));
+		sprite.setPosition(curStar.x + halfWidth - textureOffsetX * scale, curStar.y + halfHeight - textureOffsetY * scale);
 		sprite.setScale(scale, scale);
 		window.draw(sprite);
 	}

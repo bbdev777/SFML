@@ -7,7 +7,7 @@
 
 namespace Stars
 {
-    struct StarDescription
+    struct ObjectDescription
     {
         double x = 0.0;
         double y = 0.0;
@@ -35,11 +35,27 @@ namespace Stars
                     item.z = defaultZ;
                 }
             }
+
+            for (auto &item : cloudList)
+            {
+                item.z += step;
+
+                if(item.z >= 0.0)
+                {
+                    item = Randomize(defaultZ, 3, 5);
+                    item.z = defaultZ;
+                }
+            }
         }
 
-        const std::vector<StarDescription> &GetStars() const
+        const std::vector<ObjectDescription> &GetStars() const
         {
             return starList;
+        }
+
+        const std::vector<ObjectDescription> &GetClouds() const
+        {
+            return cloudList;
         }
 
         double  GetMaxZ() const
@@ -53,6 +69,12 @@ namespace Stars
             {               
                 starList.push_back(Randomize(defaultZ));
             }
+
+            for (int i = 0; i < 25; i++)
+            {     
+                cloudList.push_back(Randomize(defaultZ, 3, 5));
+            }
+
         }
 
     protected:
@@ -61,7 +83,7 @@ namespace Stars
             return x * (3.14159 / 180.0);
         }
 
-        StarDescription Randomize(double defaultZ)
+        ObjectDescription Randomize(double defaultZ, int randomizeMin = 0, int randomizeMax = 2)
         {
             int radiusX = std::uniform_int_distribution<int>(8500, 95000)(generator);
             int radiusY = radiusX;
@@ -70,7 +92,7 @@ namespace Stars
             double  y = (double)(radiusY) * sin(radians);
             double  z = -(double)(rand() % (int)fabs(defaultZ));
 
-            StarDescription description {x, y, z, std::uniform_int_distribution<int>(0, 2)(generator)};
+            ObjectDescription description {x, y, z, std::uniform_int_distribution<int>(randomizeMin, randomizeMax)(generator)};
 
             return description;
         }
@@ -78,6 +100,7 @@ namespace Stars
         double defaultZ = -250.0;
 
         std::random_device generator;
-        std::vector<StarDescription> starList;
+        std::vector<ObjectDescription> starList;
+        std::vector<ObjectDescription> cloudList;
     };
 }
