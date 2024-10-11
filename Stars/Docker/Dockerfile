@@ -13,6 +13,7 @@ RUN /opt/vcpkg/vcpkg install libx11 libxrandr glm
 
 RUN mkdir -p /src/SFML
 RUN mkdir -p /Images
+RUN mkdir -p /Images/Clouds
 RUN mkdir -p /build-folder
 
 RUN --mount=type=bind,source=.,target=/src/SFML \
@@ -27,14 +28,19 @@ RUN --mount=type=bind,source=.,target=/src/SFML \
     && cp -r /build-folder/Stars /Stars \
     && cp /src/SFML/Images/StarRed.png /Images/StarRed.png \
     && cp /src/SFML/Images/StarBlue.png /Images/StarBlue.png \
-    && cp /src/SFML/Images/StarWhite.png /Images/StarWhite.png
+    && cp /src/SFML/Images/StarWhite.png /Images/StarWhite.png \
+    && cp /src/SFML/Images/Clouds/Cloud1.png /Images/Clouds/Cloud1.png \
+    && cp /src/SFML/Images/Clouds/Cloud2.png /Images/Clouds/Cloud2.png \
+    && cp /src/SFML/Images/Clouds/Cloud3.png /Images/Clouds/Cloud3.png
 
-FROM 10.74.33.15:5000/ubuntu-20.04-rel-image:1.0.1 AS Release
+FROM 10.74.33.15:5000/ubuntu-20.04-rel-image:1.0.1 AS release
 
 RUN apt update
 RUN apt-get install -y autoconf libtool pkg-config libudev-dev libsfml-dev
 
 RUN mkdir -p /Images
+RUN mkdir -p /Images/Clouds
 
 COPY --from=build /Stars /Stars
 COPY --from=build /Images/*.png /Images
+COPY --from=build /Images/Clouds/*.png /Images/Clouds
