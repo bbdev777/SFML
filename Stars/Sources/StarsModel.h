@@ -85,7 +85,7 @@ namespace Stars
 
         ObjectDescription Randomize(double defaultZ, int randomizeMin = 0, int randomizeMax = 2)
         {
-            int radiusX = std::uniform_int_distribution<int>(8500, 95000)(generator);
+            int radiusX = std::uniform_int_distribution<int>(6000, 100000)(generator);
             int radiusY = radiusX;
             double  radians = DegToRad(double(rand() % 359));
             double  x = (double)(radiusX) * cos(radians);
